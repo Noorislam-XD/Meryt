@@ -1,5 +1,8 @@
 # MERYT — Global Verified Talent Rankings
 
+Everyone.
+Ranked on everything
+
 The NI Score — a dynamic proof-of-work identity graph for students, researchers, builders, creators, and professionals worldwide.
 
 ## Stack
