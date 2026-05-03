@@ -27,6 +27,7 @@ const LINKS = [
       { label: "Roadmap", href: "/roadmap" },
       { label: "Changelog", href: "/changelog" },
       { label: "API Docs", href: "/api-docs" },
+      { label: "Open Metrics", href: "/open" },
     ],
   },
   {
