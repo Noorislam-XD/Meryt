@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Terms of Service",
+  title: "Terms of Service — MERYT",
   description: "MERYT Terms of Service — rules for using the platform, NI Score, and API.",
 };
 
