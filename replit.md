@@ -1,136 +1,132 @@
-# MERYT Platform
+# MERYT — Global Verified Talent Rankings
 
-Global verified talent ranking platform. NOT social credit scoring — pure proof-of-work NI Score based on 5 verifiable pillars.
+## Project Overview
 
-## Tech Stack
+MERYT is a production-ready Next.js 15 application — a global verified talent ranking platform powered by the NI Score (proof-of-work identity graph). NOT social credit scoring — purely proof-of-work merit.
 
-- **Framework**: Next.js 15 (App Router), TypeScript
-- **Styling**: Tailwind v4 (`@tailwindcss/postcss`), CSS variables in `globals.css` — NO `tailwind.config.js`
-- **Fonts**: Syne (display), DM Mono (mono), Bricolage Grotesque (body) — loaded via `<link>` in `layout.tsx`
-- **Dark mode**: `next-themes` via `.dark` class on `<html>`
-- **Auth**: localStorage stub (no Firebase) — `AuthContext.tsx`
-- **Path alias**: `@/*` maps to `meryt/` root (so `@/src/...` = `meryt/src/...`)
+**Live app:** Runs on port 5000 via `cd meryt && npm run dev`
+**GitHub:** https://github.com/Noorislam-XD/learderboard (branch: `main`)
 
-## Project Structure
+## Architecture
 
 ```
 meryt/
-  app/
-    page.tsx                    # Main leaderboard homepage (hero, podium, full table, how-it-works, CTA)
-    layout.tsx                  # Root layout with ThemeProvider, fonts, full metadata (OG, Twitter, robots)
-    globals.css                 # CSS vars (light/dark), animations, responsive utilities, .show-mobile
-    not-found.tsx               # Enhanced 404 page with quick links
-    error.tsx                   # Enhanced error boundary with error message display
-    loading.tsx                 # Global skeleton loading state
-    sitemap.ts                  # Sitemap generator (static + profile + org pages)
-    robots.ts                   # Robots.txt
-    opengraph-image.tsx         # Enhanced OG image (1200×630)
-    leaderboard/page.tsx        # Full dedicated leaderboard: region tabs, sort, load more, stats, footer
-    profile/
-      [id]/page.tsx             # Full public profile: hero, score breakdown, sidebar, ShareCard button
-      [id]/card/route.ts        # GET /profile/:id/card — embeddable HTML rank card
-      loading.tsx               # Profile skeleton loader
-    dashboard/page.tsx          # Personal dashboard: rank history, pillar breakdown, activity feed
-    verify/page.tsx             # Verification workflow: 5 pillars, evidence submission, progress
-    pricing/page.tsx            # Pricing tiers: Explorer/Pro/Elite, monthly/yearly toggle
-    search/page.tsx             # Full search + category filter + sort
-    search/loading.tsx          # Search skeleton loader
-    about/page.tsx              # About MERYT: mission, how NI Score works, team
-    admin/page.tsx              # Admin panel: overview, users, verifications, scores, reports
-    api-docs/page.tsx           # REST API reference: endpoints, params, examples, rate limits
-    changelog/page.tsx          # Version history timeline (v2.0–v2.4)
-    settings/page.tsx           # Settings: Profile / Account / Notifications / Privacy / API Keys / Danger Zone
-    notifications/page.tsx      # Notifications: read/unread filter, mark all read
-    org/[slug]/page.tsx         # Organization profiles: stats, top members, claim CTA
-    api/
-      leaderboard/route.ts      # GET /api/leaderboard
-      profile/[id]/route.ts     # GET /api/profile/:id
-      scores/route.ts           # GET /api/scores
-      verify/route.ts           # POST /api/verify
-      stats/route.ts            # GET /api/stats — platform statistics
-      org/[slug]/route.ts       # GET /api/org/:slug — organization data
-  src/
-    types/index.ts              # All TypeScript types (Contestant, Pillar, Category, etc.)
-    lib/
-      data.ts                   # 20 contestants + 12 ticker items (seed data)
-      utils.ts                  # cn(), formatScore(), getInitials(), clampScore(), pluralize()
-    components/
-      auth/
-        AuthContext.tsx          # Auth state (localStorage, signIn/signUp/signOut)
-        AuthModal.tsx            # Sign in / Sign up modal + OAuth stubs
-      layout/
-        Header.tsx               # Full nav, dark mode toggle, auth user menu, Settings/Notifications links, mobile hamburger drawer
-        Footer.tsx               # Reusable footer with nav columns and brand section
-        ThemeProvider.tsx        # Wraps NextThemesProvider + AuthProvider
-        Ticker.tsx               # Live ranking changes ticker strip
-      leaderboard/
-        CategoryChips.tsx        # Category filter chips (All/Research/Tech/Creative/Gaming/Social)
-        FilterRow.tsx            # Timeframe buttons + search input
-        LeaderboardRow.tsx       # Single leaderboard row with rank, avatar, score, delta
-        PodiumCard.tsx           # Top-3 podium card (gold/silver/bronze)
-        ProfileModal.tsx         # Quick-view profile modal (leaderboard version)
-      profile/
-        ProfileModal.tsx         # Full profile modal (homepage version)
-      scoring/
-        NIScoreEngine.ts         # NI Score calculation logic, weights, category normalization
-      ui/
-        Badge.tsx                # Reusable badge with color variants
-        Button.tsx               # Reusable button with primary/secondary/ghost variants
-        ShareCard.tsx            # Share/embed rank card modal (copy URL, copy embed code, social share)
-        SkeletonRow.tsx          # Skeleton loading: SkeletonRow, SkeletonCard, SkeletonProfile
+├── app/
+│   ├── globals.css            # MERYT design tokens + animations
+│   ├── layout.tsx             # Root layout (server component, metadata)
+│   ├── page.tsx               # Homepage / leaderboard
+│   ├── error.tsx              # Global error boundary ("use client")
+│   ├── not-found.tsx          # Global 404
+│   ├── loading.tsx            # Global loading skeleton
+│   ├── sitemap.ts             # 50+ URL sitemap
+│   ├── opengraph-image.tsx    # Root OG image (Edge runtime)
+│   ├── leaderboard/page.tsx   # Full leaderboard page
+│   ├── leaderboard/loading.tsx
+│   ├── profile/[id]/page.tsx  # Public profile page
+│   ├── profile/[id]/opengraph-image.tsx  # Per-profile OG image
+│   ├── embed/[id]/page.tsx    # Embeddable rank card (no layout)
+│   ├── org/[slug]/page.tsx    # Institution profile (11 orgs)
+│   ├── search/page.tsx
+│   ├── verify/page.tsx
+│   ├── pricing/page.tsx
+│   ├── dashboard/page.tsx
+│   ├── settings/page.tsx
+│   ├── notifications/page.tsx
+│   ├── changelog/page.tsx
+│   ├── about/page.tsx
+│   ├── api-docs/page.tsx
+│   ├── admin/page.tsx
+│   ├── blog/page.tsx          # Blog listing
+│   ├── blog/[slug]/page.tsx   # 6 full articles
+│   ├── careers/page.tsx
+│   ├── partners/page.tsx      # 12 university + 8 corporate partners
+│   ├── status/page.tsx        # System status / uptime
+│   ├── roadmap/page.tsx
+│   ├── faq/page.tsx
+│   ├── contact/page.tsx
+│   ├── privacy/page.tsx
+│   └── terms/page.tsx
+│   └── api/
+│       ├── leaderboard/route.ts   # Enhanced with filters
+│       ├── search/route.ts
+│       ├── webhook/route.ts
+│       ├── orgs/route.ts
+│       ├── stats/route.ts
+│       ├── scores/route.ts
+│       ├── verify/route.ts
+│       ├── profile/[id]/route.ts
+│       ├── org/[slug]/route.ts
+│       └── v1/                    # Versioned public API
+│           ├── leaderboard/route.ts
+│           ├── profile/[id]/route.ts
+│           ├── search/route.ts
+│           └── stats/route.ts
+└── src/
+    ├── components/
+    │   ├── layout/
+    │   │   ├── Header.tsx
+    │   │   ├── Footer.tsx         # 4-column nav (Platform/Company/Community/Support)
+    │   │   ├── ThemeProvider.tsx
+    │   │   └── Ticker.tsx
+    │   ├── leaderboard/
+    │   │   ├── CategoryChips.tsx
+    │   │   ├── FilterRow.tsx
+    │   │   ├── LeaderboardRow.tsx
+    │   │   └── PodiumCard.tsx
+    │   ├── profile/
+    │   │   └── ProfileModal.tsx
+    │   └── ui/
+    │       └── SkeletonRow.tsx
+    ├── lib/
+    │   ├── data.ts              # 30 contestants + ticker items
+    │   └── utils.ts
+    └── types/
+        └── index.ts
 ```
 
-## Key Design Decisions
+## Data
 
-- **No `tailwind.config.js`** — Tailwind v4 is configured entirely via CSS `@import "tailwindcss"` + CSS custom properties
-- **CSS variables** for all color tokens — enables seamless dark mode via `.dark` class swap
-- **Sequential GitHub pushes** — GitHub Contents API requires fresh SHAs; parallel pushes cause SHA mismatch failures
-- **Two ProfileModal files** — `leaderboard/ProfileModal.tsx` (quick view) and `profile/ProfileModal.tsx` (full view used on homepage)
-- **`@/*` alias** resolves to `meryt/` root, NOT `meryt/src/` — always use `@/src/...` for src files
-- **Mobile hamburger** — `.show-mobile { display: flex !important }` at ≤768px; `.nav-links { display: none }` at mobile
-- **metadata exports** — `"use client"` pages cannot export `metadata`; static server pages use `export const metadata`
-- **Footer** — extracted to `src/components/layout/Footer.tsx`, imported on homepage and `/leaderboard`
+- **30 contestants** (ranks 1–30, IDs "1"–"30") in `src/lib/data.ts`
+- Contestants span: India, Spain, Japan, Nigeria, USA, Brazil, France, Sweden, South Korea, Kenya, Australia, UK, Egypt, Canada, Taiwan (NTU), Germany (ETH), South Africa, India (IISc), Russia, Mexico, Japan (Kyoto), UAE, Japan (TUA), Sudan, Taiwan (NTU)
+- **11 org profiles** in `app/org/[slug]/page.tsx`: iit-bombay, mit, tokyo-u, stanford, oxford, eth-zurich, kaist, tsinghua, caltech, cambridge, tokyo-university
+- **6 blog articles**: ni-score-explained, not-social-credit, verification-accuracy, global-talent-map, api-v1-launch, rank-card-embeds
 
-## Dev Server
+## Design System
 
+**Colors (CSS vars):**
+- Light: `--bg: #F4F2ED`, `--surface: #FFFFFF`, `--text: #18160F`
+- Dark: `--bg: #0F0E0B`, `--surface: #1A1916`, `--text: #F0EDE6`
+- Accent: `--accent: #FF4500` (MERYT orange), `--accent2: #1A56FF`, `--accent3: #00BE6A`
+- Medals: `--gold: #F5A200`, `--silver: #A2AFBE`, `--bronze: #C4793A`
+
+**Fonts:** Syne (display), DM Mono (monospace), Bricolage Grotesque (body) — all via Google Fonts `<link>`
+
+**Animations:** fadeUp, cardPop, rowIn, tickroll, livepulse
+
+## Stack
+
+- **Framework:** Next.js 15 (App Router, Turbopack)
+- **Language:** TypeScript 5
+- **Styling:** Tailwind CSS v4 (`@tailwindcss/postcss`) — NO tailwind.config.js
+- **Themes:** next-themes (dark/light via `.dark` class)
+- **Path alias:** `@/*` maps to `meryt/` root (`@/src/...` = `meryt/src/...`)
+
+## Critical Rules
+
+- `"use client"` pages CANNOT export `metadata`
+- All API routes under `/api/v1/` use `export const runtime = "edge"`
+- Dev server: `cd meryt && npm run dev` on `0.0.0.0:5000`
+- GitHub push: use Node script `/tmp/push_github.mjs` from bash (NOT code_execution — process.env is undefined there)
+
+## Development
+
+```bash
+cd meryt && npm run dev   # starts on 0.0.0.0:5000
+node /tmp/push_github.mjs  # push files to GitHub
 ```
-cd meryt && npm run dev
-```
 
-Runs on port 5000, `0.0.0.0`. Workflow "Start application" manages this.
+## User Preferences
 
-## GitHub
-
-Repo: `Noorislam-XD/learderboard` (branch: `main`)
-Push method: sequential GitHub Contents REST API via `/tmp/push_phase2.mjs`
-Token: `GITHUB_PERSONAL_ACCESS_TOKEN` env secret
-
-## NI Score Pillars
-
-| Pillar | Weight | Sources |
-|---|---|---|
-| Academic | 25% | GPA, degrees, awards |
-| Research | 25% | Papers, citations, patents |
-| Code | 20% | GitHub commits, OSS impact |
-| Creator | 15% | Portfolio, reach, quality |
-| Social | 15% | Community, mentorship |
-
-## Phases Completed
-
-- ✅ Phase 1: Auth (AuthContext, AuthModal, OAuth stubs)
-- ✅ Phase 2: Profiles (Contestant type, data.ts with 20 entries)
-- ✅ Phase 3: Dashboard (rank history, pillar breakdown, activity feed)
-- ✅ Phase 4: Verify (5-pillar verification workflow, evidence submission)
-- ✅ Phase 5: NI Score Engine (weights, tier, top strength, grade)
-- ✅ Phase 6: Pricing (Explorer/Pro/Elite, monthly/yearly toggle)
-- ✅ Phase 7: Search (full-text, category, sort)
-- ✅ Phase 8: About (mission, how it works, team, CTA)
-- ✅ Phase 9: Admin (verification queue, user management, analytics)
-- ✅ Phase 10: API Docs (endpoint reference with try-it examples)
-- ✅ Phase 11: Settings (6-tab settings page with toggles)
-- ✅ Phase 12: Notifications (read/unread filter, mark all read)
-- ✅ Phase 13: Changelog (version timeline v2.0–v2.4)
-- ✅ Phase 14: Org profiles (/org/[slug] with stats, top members)
-- ✅ Phase 15: ShareCard (rank card modal, copy URL, embed code)
-- ✅ Phase 16: Footer (extracted reusable Footer component)
-- ✅ Phase 17: SEO (per-page metadata, OG image, sitemap, loading skeletons, 404/error enhanced)
+- Push all code to GitHub: `Noorislam-XD/learderboard` (branch: `main`)
+- GitHub token: `GITHUB_PERSONAL_ACCESS_TOKEN` secret (accessible in bash as `$GITHUB_PERSONAL_ACCESS_TOKEN`)
+- Dev server always on `0.0.0.0:5000`
