@@ -1,5 +1,5 @@
-import { LEADERBOARD_DATA } from "@/src/lib/data";
 import type { Metadata } from "next";
+import { LEADERBOARD_DATA } from "@/src/lib/data";
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
