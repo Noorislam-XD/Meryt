@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "FAQ",
+  title: "FAQ — MERYT",
   description: "Frequently asked questions about MERYT, the NI Score, verification, and rankings.",
 };
 
