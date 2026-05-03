@@ -1,4 +1,10 @@
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About",
+  description: "MERYT is a global talent ranking platform built on verifiable proof-of-work. Not social credit scoring — pure merit.",
+};
 
 export default function AboutPage() {
   return (
