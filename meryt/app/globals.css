@@ -1,0 +1,218 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #F4F2ED;
+  --surface: #FFFFFF;
+  --border: #E3DDD5;
+  --text: #18160F;
+  --muted: #8A8074;
+  --accent: #FF4500;
+  --accent2: #1A56FF;
+  --accent3: #00BE6A;
+  --gold: #F5A200;
+  --silver: #A2AFBE;
+  --bronze: #C4793A;
+  --shadow: rgba(24,22,15,0.07);
+  --shadow-lg: rgba(24,22,15,0.15);
+}
+
+.dark {
+  --bg: #0F0E0B;
+  --surface: #1A1916;
+  --border: #2E2C27;
+  --text: #F0EDE6;
+  --muted: #6B6660;
+  --accent: #FF4500;
+  --accent2: #4D7CFF;
+  --accent3: #00D97E;
+  --gold: #F5A200;
+  --silver: #8A9AAD;
+  --bronze: #C4793A;
+  --shadow: rgba(0,0,0,0.3);
+  --shadow-lg: rgba(0,0,0,0.5);
+}
+
+html { scroll-behavior: smooth; }
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.35s, color 0.35s;
+  margin: 0;
+}
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ── Animations ── */
+@keyframes tickroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes livepulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes cardPop {
+  from { opacity: 0; transform: scale(0.93) translateY(16px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes rowIn {
+  from { opacity: 0; transform: translateX(-12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.animate-fadeup-1 { opacity: 0; animation: fadeUp 0.7s cubic-bezier(.22,1,.36,1) 0.05s forwards; }
+.animate-fadeup-2 { opacity: 0; animation: fadeUp 0.7s cubic-bezier(.22,1,.36,1) 0.15s forwards; }
+.animate-fadeup-3 { opacity: 0; animation: fadeUp 0.7s cubic-bezier(.22,1,.36,1) 0.28s forwards; }
+.animate-card-pop { opacity: 0; animation: cardPop 0.55s cubic-bezier(.34,1.4,.64,1) forwards; }
+.animate-row-in { opacity: 0; animation: rowIn 0.45s cubic-bezier(.22,1,.36,1) forwards; }
+.animate-slide-down { opacity: 0; animation: slideDown 0.3s cubic-bezier(.22,1,.36,1) forwards; }
+
+/* ── Interactive states ── */
+.leaderboard-row:hover {
+  transform: translateX(3px);
+  border-color: var(--text) !important;
+  box-shadow: 0 4px 16px var(--shadow);
+}
+.podium-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px var(--shadow-lg);
+}
+.chip:hover {
+  border-color: var(--text) !important;
+}
+
+/* ── Mobile responsive ── */
+@media (max-width: 768px) {
+  .leaderboard-grid {
+    grid-template-columns: 40px 1fr 80px 70px !important;
+  }
+  .leaderboard-grid .hide-mobile {
+    display: none !important;
+  }
+  .podium-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .pillar-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .hero-title {
+    font-size: clamp(36px, 10vw, 64px) !important;
+  }
+  .pricing-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .dashboard-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .nav-links {
+    display: none !important;
+  }
+  .show-mobile {
+    display: flex !important;
+  }
+  .footer-cols {
+    grid-template-columns: 1fr !important;
+  }
+  .profile-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .settings-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  .filter-row {
+    flex-direction: column !important;
+  }
+  .org-stats {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* ── Focus ring ── */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--accent2);
+  outline-offset: 2px;
+}
+
+/* ── Selection ── */
+::selection {
+  background: var(--accent);
+  color: white;
+}
+
+/* ── Skeleton loading ── */
+.skeleton {
+  background: linear-gradient(90deg, var(--border) 25%, var(--surface) 50%, var(--border) 75%);
+  background-size: 400px 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* ── Custom checkbox ── */
+input[type="checkbox"] {
+  accent-color: var(--accent);
+}
+
+/* ── Smooth transitions for all interactive elements ── */
+button, a, input, select {
+  transition: opacity 0.15s, transform 0.15s;
+}
+
+/* ── Code blocks ── */
+code, pre {
+  font-family: 'DM Mono', monospace;
+}
+
+/* ── Tooltip ── */
+[data-tooltip] {
+  position: relative;
+}
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text);
+  color: white;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+[data-tooltip]:hover::after {
+  opacity: 1;
+}
