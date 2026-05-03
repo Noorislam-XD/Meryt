@@ -6,6 +6,7 @@ const LINKS = [
     items: [
       { label: "Leaderboard", href: "/leaderboard" },
       { label: "Rankings", href: "/rankings" },
+      { label: "Discover", href: "/discover" },
       { label: "Search", href: "/search" },
       { label: "Hall of Fame", href: "/hall-of-fame" },
       { label: "Verify", href: "/verify" },
