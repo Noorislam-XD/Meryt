@@ -130,6 +130,18 @@ body {
   .nav-links {
     display: none !important;
   }
+  .show-mobile {
+    display: flex !important;
+  }
+  .footer-cols {
+    grid-template-columns: 1fr !important;
+  }
+  .profile-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .settings-grid {
+    grid-template-columns: 1fr !important;
+  }
 }
 
 @media (max-width: 480px) {
@@ -138,6 +150,9 @@ body {
   }
   .filter-row {
     flex-direction: column !important;
+  }
+  .org-stats {
+    grid-template-columns: repeat(2, 1fr) !important;
   }
 }
 
