@@ -21,6 +21,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/privacy`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
     { url: `${base}/terms`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
     { url: `${base}/dashboard`, lastModified: now, changeFrequency: "daily", priority: 0.6 },
+    { url: `${base}/careers`, lastModified: now, changeFrequency: "weekly", priority: 0.65 },
+    { url: `${base}/partners`, lastModified: now, changeFrequency: "monthly", priority: 0.65 },
+    { url: `${base}/status`, lastModified: now, changeFrequency: "hourly", priority: 0.6 },
   ];
 
   const profilePages: MetadataRoute.Sitemap = LEADERBOARD_DATA.map(c => ({
