@@ -31,6 +31,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/hall-of-fame`, lastModified: now, changeFrequency: "weekly", priority: 0.75 },
     { url: `${base}/open`, lastModified: now, changeFrequency: "monthly", priority: 0.65 },
     { url: `${base}/score`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/discover`, lastModified: now, changeFrequency: "daily", priority: 0.75 },
   ];
 
   const profilePages: MetadataRoute.Sitemap = LEADERBOARD_DATA.map(c => ({
