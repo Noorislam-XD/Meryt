@@ -1,14 +1,17 @@
 "use client";
 
 import { useParams } from "next/navigation";
+import { useState } from "react";
 import { LEADERBOARD_DATA } from "@/src/lib/data";
 import { getScoreBreakdown, getRankTier, getTopStrength } from "@/src/components/scoring/NIScoreEngine";
+import { ShareCard } from "@/src/components/ui/ShareCard";
 import Link from "next/link";
 
 export default function ProfilePage() {
   const params = useParams();
   const id = params?.id as string;
   const contestant = LEADERBOARD_DATA.find(c => c.id === id || c.handle === `@${id}`);
+  const [shareOpen, setShareOpen] = useState(false);
 
   if (!contestant) {
     return (
@@ -28,14 +31,19 @@ export default function ProfilePage() {
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)" }}>
-      {/* Sticky mini header */}
+      {/* Sticky header */}
       <header style={{ position: "sticky", top: 0, zIndex: 200, background: "rgba(244,242,237,0.88)", backdropFilter: "blur(20px)", borderBottom: "1px solid var(--border)", padding: "0 24px", height: 52, display: "flex", alignItems: "center", justifyContent: "space-between" }} className="dark:[background:rgba(15,14,11,0.88)]">
         <Link href="/" style={{ fontFamily: "'Syne', sans-serif", fontSize: 18, fontWeight: 800, letterSpacing: "-0.5px", color: "var(--text)", textDecoration: "none" }}>
           MERY<span style={{ color: "var(--accent)" }}>T</span>
         </Link>
-        <Link href="/" style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: "var(--muted)", textDecoration: "none", display: "flex", alignItems: "center", gap: 5 }}>
-          ← Leaderboard
-        </Link>
+        <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+          <button onClick={() => setShareOpen(true)} style={{ display: "flex", alignItems: "center", gap: 6, fontFamily: "'DM Mono', monospace", fontSize: 11, padding: "6px 13px", border: "1.5px solid var(--border)", borderRadius: 8, background: "var(--surface)", color: "var(--muted)", cursor: "pointer" }}>
+            ↗ Share
+          </button>
+          <Link href="/" style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: "var(--muted)", textDecoration: "none" }}>
+            ← Leaderboard
+          </Link>
+        </div>
       </header>
 
       {/* Hero banner */}
@@ -92,7 +100,7 @@ export default function ProfilePage() {
           ))}
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 20, alignItems: "start" }}>
+        <div className="profile-grid" style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 20, alignItems: "start" }}>
           {/* Left column */}
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
             {/* Bio */}
@@ -103,6 +111,7 @@ export default function ProfilePage() {
                 <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--border)" }}>
                   <span style={{ fontSize: 13, color: "var(--muted)" }}><strong style={{ color: "var(--text)" }}>{followers.toLocaleString()}</strong> followers</span>
                   <span style={{ fontSize: 13, color: "var(--muted)" }}><strong style={{ color: "var(--text)" }}>{following.toLocaleString()}</strong> following</span>
+                  <button onClick={() => setShareOpen(true)} style={{ marginLeft: "auto", fontFamily: "'DM Mono', monospace", fontSize: 10, padding: "5px 12px", border: "1.5px solid var(--border)", borderRadius: 7, background: "var(--bg)", color: "var(--muted)", cursor: "pointer" }}>↗ Share Profile</button>
                 </div>
               </div>
             )}
@@ -147,7 +156,7 @@ export default function ProfilePage() {
               <div style={{ fontFamily: "'Syne', sans-serif", fontSize: 16, fontWeight: 700, color: "var(--text)", marginBottom: 16 }}>Skills</div>
               {skills.map(skill => (
                 <div key={skill.label} style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
-                  <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: "var(--muted)", width: 100, letterSpacing: "0.04em" }}>{skill.label}</div>
+                  <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: "var(--muted)", width: 100 }}>{skill.label}</div>
                   <div style={{ flex: 1, height: 8, background: "var(--border)", borderRadius: 4, overflow: "hidden" }}>
                     <div style={{ height: "100%", borderRadius: 4, background: skill.color, width: `${skill.value}%` }} />
                   </div>
@@ -174,7 +183,7 @@ export default function ProfilePage() {
           {/* Right sidebar */}
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {/* AI Insight */}
-            <div style={{ background: "linear-gradient(135deg,#F0F4FF,#F5F0FF)", border: "1.5px solid #D0DAFF", borderRadius: 20, padding: "20px" }}>
+            <div style={{ background: "linear-gradient(135deg,#F0F4FF,#F5F0FF)", border: "1.5px solid #D0DAFF", borderRadius: 20, padding: "20px" }} className="dark:[background:linear-gradient(135deg,#1A1F3A,#221A3A)] dark:[border-color:#2D3060]">
               <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
                 <div style={{ width: 28, height: 28, borderRadius: 8, background: "linear-gradient(135deg,#1A56FF,#9333EA)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, color: "white" }}>✦</div>
                 <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, color: "#5B6AF0", letterSpacing: "0.08em" }}>AI INSIGHT</span>
@@ -199,7 +208,7 @@ export default function ProfilePage() {
               </div>
             )}
 
-            {/* Rank history (simulated) */}
+            {/* Rank history */}
             <div style={{ background: "var(--surface)", border: "1.5px solid var(--border)", borderRadius: 20, padding: "20px" }}>
               <div style={{ fontFamily: "'Syne', sans-serif", fontSize: 14, fontWeight: 700, color: "var(--text)", marginBottom: 14 }}>Rank History</div>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -213,7 +222,7 @@ export default function ProfilePage() {
                     <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: "var(--muted)" }}>{h.period}</span>
                     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                       <span style={{ fontFamily: "'Syne', sans-serif", fontSize: 13, fontWeight: 700, color: "var(--text)" }}>#{h.rank}</span>
-                      <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, color: h.change > 0 ? "var(--accent3)" : h.change < 0 ? "var(--accent)" : "var(--muted)" }}>
+                      <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, color: h.change > 0 ? "var(--accent3)" : "var(--accent)" }}>
                         {h.change > 0 ? "▲" : "▼"}{Math.abs(h.change)}
                       </span>
                     </div>
@@ -235,9 +244,16 @@ export default function ProfilePage() {
                 </Link>
               ))}
             </div>
+
+            {/* Share card CTA */}
+            <button onClick={() => setShareOpen(true)} style={{ width: "100%", padding: "14px", background: "var(--text)", color: "white", border: "none", borderRadius: 16, fontFamily: "'Syne', sans-serif", fontSize: 14, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+              ↗ Share Rank Card
+            </button>
           </div>
         </div>
       </main>
+
+      {shareOpen && <ShareCard contestant={contestant} onClose={() => setShareOpen(false)} />}
     </div>
   );
 }
